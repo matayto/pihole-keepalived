@@ -31,7 +31,8 @@ static domain_name_servers=192.168.0.100 192.168.0.101 192.168.0.102
 
 Save the file and either restart or run `systemctl restart dhcpcd`. 
 
-Via SSH, login to the new IP of the the primary pi-hole again.
+Repeat the above steps on your secondary pihole, adjusting IP addresses as necessary.
+
 
 ## Custom DHCP config
 
@@ -58,7 +59,7 @@ sudo apt-get update && sudo apt-get install keepalived
 vrrp_instance pihole {
         interface eth0
         state BACKUP
-        virtual_router_id 101
+        virtual_router_id 100
         priority 100
         authentication {
                 auth_type PASS
@@ -120,13 +121,13 @@ dig +notcp @192.168.0.100 duckduckgo.com
 
 ## Keepalived Setup, secondary pihole
 
-On 192.168.0.102, perform steps 1 (install keepalived) and 2 (configure keepalived), using the following configuration. Take note of the different `virtual_router_id` and `priority` values. The router ID references the last octet of the IP, and the priority is _lower_ than the primary. 
+On 192.168.0.102, perform steps 1 (install keepalived) and 2 (configure keepalived), using the following configuration. Take note of the different `virtual_router_id` and `priority` values. The router ID references the last octet of the VIP and needs to be internally consistent between all peers. The priority on the secondary must be _lower_ than the primary. 
 
 ```
 vrrp_instance pihole {
         interface eth0
         state BACKUP
-        virtual_router_id 102
+        virtual_router_id 100
         priority 99
         authentication {
                 auth_type PASS
@@ -159,4 +160,6 @@ virtual_server 192.168.0.100 53 {
 }
 ```
 
-6. Repeat steps 3 and 4 on the secondary pihole.
+Repeat steps 3 and 4 from the primary keepalived config above, keeping in mind that the VIP should _not_ appear on the secondary pihole. 
+
+Test failover by shutting down the primary pihole and validating that the keepalived VIP appears on the secondary.
