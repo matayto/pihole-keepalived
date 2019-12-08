@@ -120,7 +120,7 @@ dig @192.168.0.100 duckduckgo.com
 dig +notcp @192.168.0.100 duckduckgo.com
 ```
 
-5. Set up secondary pihole
+## Keepalived Setup, secondary pihole
 
 On 192.168.0.102, perform steps 1 (install keepalived) and 2 (configure keepalived), using the following configuration. Take note of the different `virtual_router_id` and `priority` values. The router ID references the last octet of the IP, and the priority is _lower_ than the primary. 
 
