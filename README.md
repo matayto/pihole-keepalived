@@ -121,7 +121,7 @@ dig +notcp @192.168.0.100 duckduckgo.com
 
 ## Keepalived Setup, secondary pihole
 
-On 192.168.0.102, perform steps 1 (install keepalived) and 2 (configure keepalived), using the following configuration. Take note of the different `virtual_router_id` and `priority` values. The router ID references the last octet of the VIP and needs to be internally consistent between all peers. The priority on the secondary must be _lower_ than the primary. 
+On 192.168.0.102, perform steps 1 (install keepalived) and 2 (configure keepalived), using the following configuration. Take note of the different: `priority` values. The router ID references the last octet of the VIP and needs to be internally consistent between all peers. The priority on the secondary must be _lower_ than the primary. 
 
 ```
 vrrp_instance pihole {
