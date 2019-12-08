@@ -46,8 +46,6 @@ Restart dnsmasq via `sudo pihole restartdns`.
 
 ## Keepalived setup, primary pihole
 
-The keep
-
 1. Install keepalived.
 
 ```
